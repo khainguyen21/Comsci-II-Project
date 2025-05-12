@@ -41,9 +41,6 @@ public class Student {
     public void setInterest(String interest) { this.interest = interest; }
 
 
-
-
-
     // PROPERLY IMPLEMENTED toString()
     @Override
     public String toString() {

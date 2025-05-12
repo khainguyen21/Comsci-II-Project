@@ -18,10 +18,9 @@ public class GoogleFormsFetcher {
 
         List<Student> listStudents = listStudents(connection);
 
-        List<Student> filterbyMajor = filteredStudents(listStudents, "Computer Science");
+        List<Student> filterbyMajor = StudentFilter.filterByMajor(listStudents, "Computer Science");
 
-        System.out.println("There are " + filterbyMajor.size() + " students with " + filterbyMajor.get(0).getMajor());
-
+        StudentFilter.printStudents(filterbyMajor);
     }
     private static HttpURLConnection fetchApiResponse(String urlString) {
         try {
@@ -90,25 +89,5 @@ public class GoogleFormsFetcher {
         }
         return null;
     }
-
-
-    private static List<Student> filteredStudents (List<Student> list, String targetMajor)
-    {
-        List<Student> filterStudents = new ArrayList<>();
-
-        for (Student student : list)
-        {
-            if (student.getMajor().equalsIgnoreCase(targetMajor))
-            {
-                filterStudents.add(student);
-            }
-        }
-
-        return filterStudents;
-
-    }
-
-
-
 }
 
