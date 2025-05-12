@@ -5,7 +5,7 @@ public class Student {
     private String name;
 
     @JsonProperty("Age")
-    private int age;
+    private long age;
 
     @JsonProperty("Major")
     private String major;
@@ -16,11 +16,19 @@ public class Student {
     @JsonProperty("Interest")
     private String interest;
 
+    public Student(String name, long age, String major, String hobby, String interest) {
+        this.interest = interest;
+        this.hobby = hobby;
+        this.major = major;
+        this.age = age;
+        this.name = name;
+    }
+
     // Getters and setters
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    public int getAge() { return age; }
+    public long getAge() { return age; }
     public void setAge(int age) { this.age = age; }
 
     public String getMajor() { return major; }
@@ -31,6 +39,10 @@ public class Student {
 
     public String getInterest() { return interest; }
     public void setInterest(String interest) { this.interest = interest; }
+
+
+
+
 
     // PROPERLY IMPLEMENTED toString()
     @Override

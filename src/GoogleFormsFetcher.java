@@ -1,48 +1,91 @@
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.net.*;
-import java.io.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 public class GoogleFormsFetcher {
     private static final String WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyfj24E8Vn1ElepPx0lDWvCu8gdf6tiDLvMqw4oMlU8fSvhYg-5LNn-Xd-VVRih8sD-/exec";
 
     public static void main(String[] args) {
+
+        List<Student> listStudent = new ArrayList<>();
+
         try {
-            System.out.println("Fetching URL: " + WEB_APP_URL);
-            String rawResponse = fetchApiResponse(WEB_APP_URL);
+            HttpURLConnection conn = fetchApiResponse(WEB_APP_URL);
 
-            System.out.println("--- RAW RESPONSE START ---");
-            System.out.println(rawResponse);
-            System.out.println("--- RAW RESPONSE END ---");
-
-            ObjectMapper mapper = new ObjectMapper();
-            Student[] students = mapper.readValue(rawResponse, Student[].class);
-
-            System.out.println("\nSuccessfully parsed " + students.length + " students:");
-            for (Student student : students) {
-                System.out.println(student.toString()); // Explicitly call toString()
+            assert conn != null;
+            if (conn.getResponseCode() != 200)
+            {
+                System.out.println("Error: Could not connect to API");
             }
-        } catch (Exception e) {
-            System.err.println("Error occurred:");
+            else {
+                StringBuilder resultJson = new StringBuilder();
+
+                Scanner scanner = new Scanner(conn.getInputStream());
+
+                while(scanner.hasNext())
+                {
+                    resultJson.append(scanner.nextLine());
+                }
+
+                scanner.close();
+
+                conn.disconnect();
+
+                JSONParser parser = new JSONParser();
+
+                JSONArray jsonArray = (JSONArray) parser.parse(resultJson.toString());
+
+                for (Object obj : jsonArray)
+                {
+                    JSONObject info  = (JSONObject) obj;
+
+                    String name = (String) info.get("Name");
+                    long age = (long) info.get("Age");
+                    String major = (String) info.get("Major");
+                    String hobby = (String) info.get("Hobby");
+                    String interest = (String) info.get("Interest");
+
+                    Student student = new Student(name, age, major, hobby, interest);
+
+                    listStudent.add(student);
+                }
+
+                System.out.println(listStudent.get(2).getName());
+            }
+        }catch (Exception e)
+        {
             e.printStackTrace();
         }
+
+
     }
+    private static HttpURLConnection fetchApiResponse(String urlString) {
+        try {
 
-    private static String fetchApiResponse(String urlString) throws Exception{
+            URL url = new URL(urlString);
 
-        URL url = new URL(urlString);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
-        try (BufferedReader reader = new BufferedReader(
-                new InputStreamReader(conn.getInputStream()))) {
-            StringBuilder response = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                response.append(line);
-            }
-            return response.toString();
+            conn.setRequestMethod("GET");
+
+            conn.connect();
+
+            return conn;
+
+
+        }catch (IOException e)
+        {
+            e.printStackTrace();
         }
-
+        return null;
+    }
 
 //        try
 //        {
@@ -65,6 +108,5 @@ public class GoogleFormsFetcher {
 //            e.printStackTrace();
 //        }
 //        return null;
-    }
-
 }
+
