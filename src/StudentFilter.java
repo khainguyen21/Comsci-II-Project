@@ -3,6 +3,7 @@ import java.util.List;
 
 public class StudentFilter {
 
+    // Filter the list of student by age
     public static List<Student> filterByAge (List<Student> list, long age)
     {
         List<Student> filterStudents = new ArrayList<>();
@@ -16,7 +17,7 @@ public class StudentFilter {
         }
         return filterStudents;
     }
-
+    // Filter the list of student by major
     public static List<Student> filterByMajor (List<Student> list, String major)
     {
         List<Student> filterStudents = new ArrayList<>();
@@ -31,6 +32,7 @@ public class StudentFilter {
         return filterStudents;
     }
 
+    // Filter the list of student by hobby
     public static List<Student> filterByHobby (List<Student> list, String hobby)
     {
         List<Student> filterStudents = new ArrayList<>();
@@ -45,6 +47,7 @@ public class StudentFilter {
         return filterStudents;
     }
 
+    // Filter the list of student by interest
     public static List<Student> filterByInterest (List<Student> list, String interest)
     {
         List<Student> filterStudents = new ArrayList<>();
@@ -59,7 +62,7 @@ public class StudentFilter {
         return filterStudents;
     }
 
-
+    // Print out the list of student
     public static void printStudents(List<Student> students)
     {
         if (students.isEmpty())

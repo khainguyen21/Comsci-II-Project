@@ -12,12 +12,14 @@ public class GoogleFormsFetcher {
 
     private static HttpURLConnection fetchApiResponse(String urlString) {
         try {
+            // Cast string to url
             URL url = new URL(urlString);
 
+            // Open the connection using url
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
+            // set the requested method to get (meaning just getting data)
             conn.setRequestMethod("GET");
-
             conn.connect();
 
             return conn;
@@ -29,19 +31,25 @@ public class GoogleFormsFetcher {
     }
 
     public static List<Student> listStudents (String urlString) {
+
+        // Initialize the list to store students
         List<Student> listStudent = new ArrayList<>();
 
         try {
+            // try to open the connection through api
             HttpURLConnection conn = fetchApiResponse(urlString);
 
             assert conn != null;
+
             if (conn.getResponseCode() != 200) {
                 System.out.println("Error: Could not connect to API");
+
             } else {
                 StringBuilder resultJson = new StringBuilder();
 
                 Scanner scanner = new Scanner(conn.getInputStream());
 
+                // Read the all line in the response
                 while (scanner.hasNext()) {
                     resultJson.append(scanner.nextLine());
                 }
