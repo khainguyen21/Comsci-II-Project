@@ -76,13 +76,16 @@ public class GoogleFormsFetcher {
                     String major = (String) info.get("Major");
                     String hobby = (String) info.get("Hobby");
                     String interest = (String) info.get("Interest");
+                    long studentID = (long) info.get("StudentID");
 
                     // Create student object
-                    Student student = new Student(name, age, major, hobby, interest);
+                    Student student = new Student(name, age, major, hobby, interest, studentID);
 
                     // Add into the array list
                     listStudent.add(student);
                 }
+
+
                 return listStudent;
             }
         } catch (Exception e) {

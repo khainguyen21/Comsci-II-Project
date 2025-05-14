@@ -16,12 +16,16 @@ public class Student {
     @JsonProperty("Interest")
     private String interest;
 
-    public Student(String name, long age, String major, String hobby, String interest) {
+    @JsonProperty("StudentID")
+    private long studentID;
+
+    public Student(String name, long age, String major, String hobby, String interest, long studentID) {
         this.interest = interest;
         this.hobby = hobby;
         this.major = major;
         this.age = age;
         this.name = name;
+        this.studentID = studentID;
     }
 
     // Getters and setters
@@ -40,13 +44,13 @@ public class Student {
     public String getInterest() { return interest; }
     public void setInterest(String interest) { this.interest = interest; }
 
-
+    public long getStudentId() { return studentID; }
     // PROPERLY IMPLEMENTED toString()
     @Override
     public String toString() {
         return String.format(
-                "Student[name=%s, age=%d, major=%s, hobby=%s, interest=%s]",
-                name, age, major, hobby, interest
+                "Student[name=%s, age=%d, major=%s, hobby=%s, interest=%s, id=%d]",
+                name, age, major, hobby, interest, studentID
         );
     }
 }
