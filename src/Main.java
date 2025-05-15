@@ -1,84 +1,135 @@
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        HashMap<Long, Student> dataBase = new HashMap<Long, Student>();
+    public static void main(String[] args)
+    {
 
-        final String WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyNyz7yR-cZBLiXn0MJOmEfNd6Y7IRwQT1vUW8YKks41KtflOq98Q-PFQe-i_XjY_M/exec";
+        final String WEB_APP_URL = "https://script.google.com/macros/s/AKfycby3dx8n43fIDHEzHxYa5ARc00TOm3ppeK6v3Va4icfqmSqpL5rAUW1nUYPh3X5f_XAW/exec";
 
         List<Student> listStudents = GoogleFormsFetcher.listStudents(WEB_APP_URL);
-        System.out.println(listStudents);
 
-    while(true)
-    {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Select filter option:");
-        System.out.println("1. Filter by Age");
-        System.out.println("2. Filter by Major");
-        System.out.println("3. Filter by Hobby");
-        System.out.println("4. Filter by Interest");
-        System.out.println("5. Search by student ID");
-        System.out.println("6. Show all students");
+        boolean playing = true;
+
+        while(playing)
+        {
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Select filter option:");
+            System.out.println("1. Filter by Age");
+            System.out.println("2. Filter by Major");
+            System.out.println("3. Filter by Hobby");
+            System.out.println("4. Filter by Interest");
+            System.out.println();
+            System.out.println("5. Search by student ID");
+            System.out.println();
+            System.out.println("6. Get mode age");
+            System.out.println("7. Get mean age");
+            System.out.println("8. Get median age");
+            System.out.println("9. Get mode major");
+            System.out.println();
+            System.out.println("10. Show all students");
+            System.out.println("11. STOP THE PROGRAM");
+
+            System.out.println();
+
+            int choice = -1;
+            while(true)
+            {
+                System.out.print("Enter your option: ");
+
+                if (scanner.hasNextInt()) {
+                    choice = scanner.nextInt();
+                    scanner.nextLine(); // Consume the "enter" key because after we type 2 and hit enter (2 keys on keyboard got pressed therefore we need to clean that up)
+                    break;
+                }
+                else {
+                    System.out.println("Invalid input. Please try those numbers in the filter option only!");
+                    scanner.next(); // Consume the invalid, prepare for the next input from users
+                }
+
+            }
 
 
-        int choice = scanner.nextInt();
-        scanner.nextLine();  // Consume newline
-        List<Student> filteredStudents = new ArrayList<>();
+            List<Student> filteredStudents;
+            switch (choice)
+            {
+                case 1:
+                    System.out.print("Enter age to filter by: ");
+                    int age = scanner.nextInt();
+                    assert listStudents != null;
+                    filteredStudents = StudentFilter.filterByAge(listStudents, age);
+                    StudentFilter.printStudents(filteredStudents);
+                    break;
 
-        switch (choice) {
-            case 1:
-                System.out.print("Enter age to filter by: ");
-                int age = scanner.nextInt();
-                filteredStudents = StudentFilter.filterByAge(listStudents, age);
-                StudentFilter.printStudents(filteredStudents);
+                case 2:
+                    System.out.print("Enter major to filter by: ");
+                    String major = scanner.nextLine();
+                    assert listStudents != null;
+                    filteredStudents = StudentFilter.filterByMajor(listStudents, major);
+                    StudentFilter.printStudents(filteredStudents);
+                    break;
 
-                break;
-            case 2:
-                System.out.print("Enter major to filter by: ");
-                String major = scanner.nextLine();
-                filteredStudents = StudentFilter.filterByMajor(listStudents, major);
-                StudentFilter.printStudents(filteredStudents);
+                case 3:
+                    System.out.print("Enter hobby to filter by: ");
+                    String hobby = scanner.nextLine();
+                    assert listStudents != null;
+                    filteredStudents = StudentFilter.filterByHobby(listStudents, hobby);
+                    StudentFilter.printStudents(filteredStudents);
+                    break;
 
-                break;
-            case 3:
-                System.out.print("Enter hobby to filter by: ");
-                String hobby = scanner.nextLine();
-                filteredStudents = StudentFilter.filterByHobby(listStudents, hobby);
-                StudentFilter.printStudents(filteredStudents);
+                case 4:
+                    System.out.print("Enter interest to filter by: ");
+                    String interest = scanner.nextLine();
+                    assert listStudents != null;
+                    filteredStudents = StudentFilter.filterByInterest(listStudents, interest);
+                    StudentFilter.printStudents(filteredStudents);
+                    break;
 
-                break;
-            case 4:
-                System.out.print("Enter interest to filter by: ");
-                String interest = scanner.nextLine();
-                filteredStudents = StudentFilter.filterByInterest(listStudents, interest);
-                StudentFilter.printStudents(filteredStudents);
-                break;
+                case 5:
+                    System.out.print("Enter the student id number: ");
+                    int id = scanner.nextInt();
+                    assert listStudents != null;
+                    Student student = SearchByStudentID.addStudentByID(listStudents, id);
+                    System.out.println(student);
+                    break;
 
-            case 5:
-                System.out.println("Enter the student id number: ");
-                int id = scanner.nextInt();
-                Student student = SearchByStudentID.addStudentByID(listStudents, id);
-                System.out.println(student);
-                break;
+                case 6:
+                    assert listStudents != null;
+                    filteredStudents = StudentFilter.getModeAge(listStudents);
+                    StudentFilter.printStudents(filteredStudents);
+                    break;
 
-            case 6:
-                filteredStudents = listStudents;
-                StudentFilter.printStudents(filteredStudents);
+                case 7:
+                    assert listStudents != null;
+                    System.out.println("The average age is " + Math.round(StudentFilter.getMeanAge(listStudents)));
+                    break;
 
-                break;
+                case 8:
+                    assert listStudents != null;
+                    System.out.println("The median of age is " + Math.round(StudentFilter.getMedianAge(listStudents)));
+                    break;
 
-            default:
-                System.out.println("Invalid choice.");
+                case 9:
+                    assert listStudents != null;
+                    filteredStudents = StudentFilter.getMajorMode(listStudents);
+                    StudentFilter.printStudents(filteredStudents);
+
+                case 10:
+                    filteredStudents = listStudents;
+                    assert filteredStudents != null;
+                    StudentFilter.printStudents(filteredStudents);
+                    break;
+
+                case 11:
+                    playing = false;
+                    break;
+
+                default:
+                    System.out.println("Invalid choice.");
+                    break;
+            }
+            System.out.println();
         }
-        System.out.println();
-    }
-
-
-        // Step 3: Print filtered results
-
-
     }
 }
