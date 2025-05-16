@@ -28,8 +28,11 @@ public class Main {
             System.out.println("8. Get median age");
             System.out.println("9. Get mode major");
             System.out.println();
-            System.out.println("10. Show all students");
-            System.out.println("11. STOP THE PROGRAM");
+            System.out.println("10: Sort by age (Using Merge Sort)");
+            System.out.println("11: Sorted by student ID (Using Merge Sort)");
+            System.out.println();
+            System.out.println("12. Show all students");
+            System.out.println("13. STOP THE PROGRAM");
 
             System.out.println();
 
@@ -116,13 +119,25 @@ public class Main {
                     StudentFilter.printStudents(filteredStudents);
 
                 case 10:
+                    assert listStudents != null;
+                    StudentSorter.sortByAge(listStudents, 0, listStudents.size() - 1 );
+                    StudentFilter.printStudents(listStudents);
+
+
+                case 11:
+                    assert listStudents != null;
+                    StudentSorter.sortByID(listStudents, 0, listStudents.size() - 1);
+                    StudentFilter.printStudents(listStudents);
+
+                case 12:
                     filteredStudents = listStudents;
                     assert filteredStudents != null;
                     StudentFilter.printStudents(filteredStudents);
                     break;
 
-                case 11:
+                case 13:
                     playing = false;
+                    System.out.println("Thank you for using our program!");
                     break;
 
                 default:
