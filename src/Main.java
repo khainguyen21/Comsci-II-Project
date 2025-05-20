@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -50,24 +49,54 @@ public class Main {
                     System.out.println("Invalid input. Please try those numbers in the filter option only!");
                     scanner.next(); // Consume the invalid, prepare for the next input from users
                 }
-
             }
-
 
             List<Student> filteredStudents;
             switch (choice)
             {
                 case 1:
-                    System.out.print("Enter age to filter by: ");
-                    int age = scanner.nextInt();
+                    int age;
+                    while(true){
+                        System.out.print("Enter age to filter by: ");
+                        if (scanner.hasNextInt()) {
+                            age = scanner.nextInt();
+                            scanner.nextLine(); // Consume the "enter" key because after we type 2 and hit enter (2 keys on keyboard got pressed therefore we need to clean that up)
+                            break;
+                        }
+                        else {
+                            System.out.println("Invalid input. Please input numbers only!");
+                            scanner.next(); // Consume the invalid, prepare for the next input from users
+                        }
+                    }
                     assert listStudents != null;
                     filteredStudents = StudentFilter.filterByAge(listStudents, age);
                     StudentFilter.printStudents(filteredStudents);
                     break;
 
                 case 2:
-                    System.out.print("Enter major to filter by: ");
-                    String major = scanner.nextLine();
+                    String major;
+                    while(true){
+                        System.out.print("Enter major to filter by: ");
+
+                        if (scanner.hasNextLine()) {
+                            major = scanner.nextLine().trim();
+                             // Consume the "enter" key because after we type 2 and hit enter (2 keys on keyboard got pressed therefore we need to clean that up)
+                            if (major.matches("[a-zA-Z ]+"))
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                System.out.println("Invalid input. Please input numbers only!");
+                            }
+
+                        }
+                        else {
+                            System.out.println("Invalid input. Please input numbers only!");
+                            scanner.next(); // Consume the invalid, prepare for the next input from users
+                        }
+                    }
+
                     assert listStudents != null;
                     filteredStudents = StudentFilter.filterByMajor(listStudents, major);
                     StudentFilter.printStudents(filteredStudents);
@@ -122,7 +151,6 @@ public class Main {
                     assert listStudents != null;
                     StudentSorter.sortByAge(listStudents, 0, listStudents.size() - 1 );
                     StudentFilter.printStudents(listStudents);
-
 
                 case 11:
                     assert listStudents != null;

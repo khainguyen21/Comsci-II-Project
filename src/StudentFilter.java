@@ -42,7 +42,7 @@ public class StudentFilter {
 
         for (Student student : list)
         {
-            if (student.getMajor().equalsIgnoreCase(hobby))
+            if (student.getHobby().equalsIgnoreCase(hobby))
             {
                 filterStudents.add(student);
             }
@@ -57,7 +57,7 @@ public class StudentFilter {
 
         for (Student student : list)
         {
-            if (student.getMajor().equalsIgnoreCase(interest))
+            if (student.getInterest().equalsIgnoreCase(interest))
             {
                 filterStudents.add(student);
             }
@@ -123,7 +123,4 @@ public class StudentFilter {
             }
         }
     }
-
-
-
 }
