@@ -50,4 +50,4 @@ This Java console application allows users to filter, sort, and analyze student 
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/your-repo-name.git
+   git clone https://github.com/khainguyen21/Comsci-II-Project
