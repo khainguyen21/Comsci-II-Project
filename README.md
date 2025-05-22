@@ -10,7 +10,7 @@ This Java console application allows users to filter, sort, and analyze student 
 
 ## 👥 Team Members
 
-- Khai Nguyen
+- Khai
 - Phil
 - Anna
 - Franklin
